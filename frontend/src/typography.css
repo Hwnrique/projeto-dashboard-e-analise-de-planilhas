@@ -1,0 +1,66 @@
+
+.workspace .brand { font-size: 20px !important; }
+.workspace .brand small { font-size: 11px !important; }
+.workspace .nav-label { font-size: 11px !important; }
+.workspace nav a { font-size: 14px !important; }
+.workspace .nav-icon { font-size: 21px !important; }
+.workspace .user-name { font-size: 13px !important; }
+.workspace .user-name small { font-size: 11px !important; }
+.workspace .logout { font-size: 13px !important; }
+.workspace .logout-error { font-size: 12px !important; }
+.workspace .topbar { height: 66px; font-size: 13px !important; }
+.workspace .topbar-status { font-size: 12px !important; }
+.workspace .content { padding-top: 42px; }
+
+app-dashboard .eyebrow,
+app-recarga .eyebrow,
+app-pix .eyebrow,
+app-user-create .eyebrow,
+app-user-list .eyebrow { font-size: 11px !important; }
+app-dashboard h1,
+app-recarga h1,
+app-pix h1,
+app-user-create h1,
+app-user-list h1 { font-size: 33px !important; }
+app-dashboard .intro,
+app-recarga .intro,
+app-pix .intro,
+app-user-create .intro,
+app-user-list .intro { font-size: 15px !important; }
+
+app-dashboard .date-chip { font-size: 12px !important; }
+app-dashboard .metric-label { font-size: 11px !important; }
+app-dashboard .metric strong { font-size: 29px !important; }
+app-dashboard .metric small,
+app-dashboard .bottom-card p { font-size: 13px !important; }
+app-dashboard .metric a { font-size: 13px !important; }
+app-dashboard .bottom-card h2 { font-size: 16px !important; }
+app-dashboard .ready { font-size: 11px !important; }
+
+app-recarga .empty h2,
+app-pix .empty h2 { font-size: 18px !important; }
+app-recarga .empty p,
+app-pix .empty p { font-size: 14px !important; }
+
+app-user-create .form-heading h2 { font-size: 16px !important; }
+app-user-create .form-heading p { font-size: 13px !important; }
+app-user-create .fields label { font-size: 14px !important; }
+app-user-create .fields input { font-size: 14px !important; }
+app-user-create .fields small,
+app-user-create .success,
+app-user-create .error { font-size: 13px !important; }
+app-user-create .actions button { font-size: 13px !important; }
+
+app-user-list .heading button { font-size: 13px !important; }
+app-user-list .table-top strong { font-size: 14px !important; }
+app-user-list .table-top > div span,
+app-user-list .table-note { font-size: 12px !important; }
+app-user-list th { font-size: 11px !important; }
+app-user-list td,
+app-user-list .person strong { font-size: 13px !important; }
+app-user-list .role { font-size: 12px !important; }
+app-user-list .state { font-size: 14px !important; }
+
+@media (max-width: 780px) {
+  .workspace .content { padding-top: 28px; }
+}

@@ -1,0 +1,61 @@
+
+
+@import 'tailwindcss';
+@import './typography.css';
+
+html, body { min-height: 100%; margin: 0; }
+body { background: #f5f7f4; }
+button, input { font-family: inherit; }
+
+body.dark-theme{color-scheme:dark;background:#141a15;color:#e1e9e0}
+body.dark-theme .workspace{background:#141a15;color:#e1e9e0}
+body.dark-theme .sidebar,body.dark-theme .topbar,body.dark-theme .metric,body.dark-theme .table-card,body.dark-theme .ranking-card,body.dark-theme .goal-card,body.dark-theme .form-card,body.dark-theme .list-card,body.dark-theme .bottom-card,body.dark-theme .login-card,body.dark-theme .goal-settings,body.dark-theme .drop-zone{background-color:#1d261f;border-color:#303d32}
+body.dark-theme .sidebar,body.dark-theme .topbar{border-color:#303d32}
+body.dark-theme .brand,body.dark-theme .user-name,body.dark-theme h1,body.dark-theme .page,body.dark-theme .goal-current strong,body.dark-theme .goal-target strong,body.dark-theme .goal-numbers>div strong,body.dark-theme .donut-center strong,body.dark-theme .ranking-card h2,body.dark-theme .table-card header h2,body.dark-theme .list-card header h2,body.dark-theme .form-heading h2,body.dark-theme .no-report strong,body.dark-theme .operator-name,body.dark-theme .ranking-list li>strong,body.dark-theme .table-card td,body.dark-theme .list-card td,body.dark-theme .person strong{color:#e1e9e0}
+body.dark-theme .nav-label,body.dark-theme .topbar,body.dark-theme .topbar-status,body.dark-theme .intro,body.dark-theme .card-heading small,body.dark-theme .goal-header small,body.dark-theme .goal-numbers>div span,body.dark-theme .goal-numbers small,body.dark-theme .ranking-state,body.dark-theme .loading-state,body.dark-theme .no-report span,body.dark-theme .table-card header p,body.dark-theme .table-card header small,body.dark-theme .operator-code,body.dark-theme .form-heading p,body.dark-theme .description,body.dark-theme .state,body.dark-theme .table-note,body.dark-theme .date-chip,body.dark-theme .goal-footer,body.dark-theme .goal-current span,body.dark-theme .goal-target span{color:#a3b0a4}
+body.dark-theme nav a{color:#b2beb3}body.dark-theme nav a:hover,body.dark-theme nav a.active{background:#293b2b;color:#a8d4a8}
+body.dark-theme .user-chip,body.dark-theme .table-card th,body.dark-theme .list-card th,body.dark-theme .table-top,body.dark-theme .form-heading,body.dark-theme .actions,body.dark-theme .card-heading,body.dark-theme .ranking-card>header,body.dark-theme .ranking-list li,body.dark-theme .table-card td,body.dark-theme .list-card td{border-color:#303d32}
+body.dark-theme .avatar,body.dark-theme .icon,body.dark-theme .metric-icon.green,body.dark-theme .rank-icon.green,body.dark-theme .rank-number.podium{background:#29402c;color:#a8d4a8}
+body.dark-theme .metric-icon.orange,body.dark-theme .rank-icon.orange{background:#493323;color:#f0ad70}
+body.dark-theme .metric-label,body.dark-theme .metric span,body.dark-theme .goal-badge{color:#a3b0a4}
+body.dark-theme .goal-far{--goal-accent:#ef8178;background:linear-gradient(120deg,#261f1e,#302321);border-color:#5b3431}
+body.dark-theme .goal-near{--goal-accent:#e0bd5d;background:linear-gradient(120deg,#28251d,#332e20);border-color:#5a4b2c}
+body.dark-theme .goal-reached{--goal-accent:#84c18b;background:linear-gradient(120deg,#1f2920,#243327);border-color:#36543a}
+body.dark-theme .goal-settings>div:first-child strong,body.dark-theme .form-card label,body.dark-theme .fields label{color:#d4ded4}
+body.dark-theme .goal-editor,body.dark-theme .goal-editor input,body.dark-theme .fields input,body.dark-theme .form-card input,body.dark-theme .operators-form input,body.dark-theme .table-top>div span,body.dark-theme .list-card header span,body.dark-theme .role,body.dark-theme .date-chip,body.dark-theme .heading button,body.dark-theme .theme-toggle{background:#202b22;border-color:#3b4a3d;color:#d0dbd0}
+body.dark-theme .goal-editor input::placeholder,body.dark-theme input::placeholder{color:#819083}
+body.dark-theme .progress-track{background:#dce8dc25}
+body.dark-theme .table-card th,body.dark-theme .list-card th{background:#222d24;color:#a3b0a4}
+body.dark-theme .donut-center{background:#1d261f}
+body.dark-theme .goal-far .goal-badge,body.dark-theme .goal-near .goal-badge,body.dark-theme .goal-reached .goal-badge{background:#202720}
+body.dark-theme .empty,body.dark-theme .incompatible-report{background:#1d261f;border-color:#3b4a3d;color:#a3b0a4}
+body.dark-theme .theme-toggle:hover{background:#293b2b;border-color:#547b57;color:#c3e2c4}
+body.dark-theme .metric strong,body.dark-theme .bottom-card h2,body.dark-theme .table-top strong{color:#e1e9e0}
+body.dark-theme .bottom-card p,body.dark-theme .table-note{color:#a3b0a4}
+body.dark-theme .ready,body.dark-theme .success{background:#29402c;color:#a8d4a8}
+body.dark-theme .admin-role{background:#493323;color:#f0ad70}
+body.dark-theme .error,body.dark-theme .field-error{color:#f28b82}
+body.dark-theme .login-page{background:radial-gradient(ellipse at 12% 12%,rgb(67 121 73 / 16%),transparent 36%),#141a15}
+body.dark-theme .login-card{background:#1d261f;border-color:#303d32}
+body.dark-theme .login-page .eyebrow,body.dark-theme .login-page label{color:#a8d4a8}
+body.dark-theme .login-page h1{color:#f0a16b}
+body.dark-theme .login-page input{background:#202b22;border-color:#3b4a3d;color:#e1e9e0}
+body.dark-theme .login-page input:focus{border-color:#71a47a;box-shadow:0 0 0 3px rgb(113 164 122 / 18%)}
+body.dark-theme .login-page button{background:#397b43}body.dark-theme .login-page button:hover{background:#438d4d}
+
+body.dark-theme .eyebrow,body.dark-theme .card-heading>a,body.dark-theme .goal-settings .edit-goal{color:#b7e4b8}
+
+body.dark-theme .goal-reached{--goal-accent:#91d99a}
+body.dark-theme .donut{filter:saturate(1.35) brightness(1.12)}
+body.dark-theme .progress-track span{filter:saturate(1.25) brightness(1.12)}
+
+body.dark-theme .goal-current strong,body.dark-theme .goal-target strong,body.dark-theme .goal-numbers>div strong,body.dark-theme .donut-center strong,body.dark-theme .goal-footer strong,body.dark-theme .goal-footer>span{color:#f2f7f2!important}
+
+body.dark-theme .brand small,body.dark-theme .user-name small,body.dark-theme .logout,
+body.dark-theme .drop-zone p,body.dark-theme .drop-zone small,body.dark-theme .drop-zone h2,
+body.dark-theme .card-heading p,body.dark-theme .form-heading p,body.dark-theme .intro,
+body.dark-theme .goal-header small,body.dark-theme .goal-numbers>div span,body.dark-theme .goal-current span,body.dark-theme .goal-target span,
+body.dark-theme .table-card header p,body.dark-theme .table-card header small,body.dark-theme .list-card header span,
+body.dark-theme .table-note,body.dark-theme .operator-code,body.dark-theme .state,body.dark-theme .ranking-state{color:#c0cbc1}
+body.dark-theme .drop-zone{background-color:#1d261f}
+@media(prefers-reduced-motion:no-preference){body,body *{transition-property:background-color,border-color,color;transition-duration:160ms}}

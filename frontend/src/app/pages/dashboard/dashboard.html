@@ -1,0 +1,96 @@
+<div class="welcome">
+  <div>
+    <p class="eyebrow">PAINEL DE DESEMPENHO</p>
+    <h1>Visão geral</h1>
+    <p class="intro">Acompanhe o progresso das metas e os destaques da equipe.</p>
+  </div>
+  <div class="date-chip"><span class="date-dot"></span> Dados dos relatórios mais recentes</div>
+</div>
+
+<section class="goal-grid" aria-label="Progresso das metas">
+  <article class="goal-card recarga-card" [class.goal-near]="goalStatus(recarga()) === 'near'" [class.goal-reached]="goalStatus(recarga()) === 'reached'">
+    <header class="card-heading">
+      <div><span class="metric-icon green">↗</span><div><p>META DE RECARGA</p><small>Valor total realizado</small></div></div>
+      <a routerLink="/home/recarga">Ver painel <span>→</span></a>
+    </header>
+    @if (recargaLoading()) {
+      <div class="loading-state">Carregando dados de Recarga…</div>
+    } @else if (recargaError()) {
+      <div class="empty-state" role="alert">{{ recargaError() }}</div>
+    } @else if (recarga()?.report; as report) {
+      <div class="goal-content">
+        <div class="donut" [style.background]="progressStyle(recarga())" role="img" [attr.aria-label]="percentLabel(recarga()) + '% da meta de Recarga atingida'">
+          <div class="donut-center"><strong>{{ percentLabel(recarga()) }}%</strong><span>atingido</span></div>
+        </div>
+        <div class="goal-numbers">
+          <div><span>REALIZADO</span><strong>{{ currentValue(recarga(), 'recarga') }}</strong></div>
+          <div><span>META</span><strong>{{ targetValue(recarga(), 'recarga') }}</strong></div>
+          <small>{{ report.fileName }}</small>
+        </div>
+      </div>
+    } @else {
+      <div class="no-report"><strong>Nenhum relatório de Recarga</strong><span>Importe uma planilha para acompanhar o progresso da meta.</span></div>
+    }
+  </article>
+
+  <article class="goal-card pix-card" [class.goal-near]="goalStatus(pix()) === 'near'" [class.goal-reached]="goalStatus(pix()) === 'reached'">
+    <header class="card-heading">
+      <div><span class="metric-icon orange">◇</span><div><p>META DE PIX</p><small>Quantidade de transações</small></div></div>
+      <a routerLink="/home/pix">Ver painel <span>→</span></a>
+    </header>
+    @if (pixLoading()) {
+      <div class="loading-state">Carregando dados de Pix…</div>
+    } @else if (pixError()) {
+      <div class="empty-state" role="alert">{{ pixError() }}</div>
+    } @else if (pix()?.report; as report) {
+      <div class="goal-content">
+        <div class="donut" [style.background]="progressStyle(pix())" role="img" [attr.aria-label]="percentLabel(pix()) + '% da meta de Pix atingida'">
+          <div class="donut-center"><strong>{{ percentLabel(pix()) }}%</strong><span>atingido</span></div>
+        </div>
+        <div class="goal-numbers">
+          <div><span>PIX REALIZADOS</span><strong>{{ currentValue(pix(), 'pix') }}</strong></div>
+          <div><span>META</span><strong>{{ targetValue(pix(), 'pix') }}</strong></div>
+          <small>{{ report.fileName }}</small>
+        </div>
+      </div>
+    } @else {
+      <div class="no-report"><strong>Nenhum relatório de Pix</strong><span>Importe uma planilha para acompanhar o progresso da meta.</span></div>
+    }
+  </article>
+</section>
+
+<section class="rankings" aria-label="Top 5 operadores">
+  <article class="ranking-card">
+    <header><div><p class="eyebrow">DESTAQUES DA EQUIPE</p><h2>Top 5 Operadores de Recarga</h2></div><span class="rank-icon green">↗</span></header>
+    @if (recargaLoading()) {
+      <div class="ranking-state">Carregando ranking…</div>
+    } @else if (recarga()?.report; as report) {
+      @if (report.rows.length) {
+        <ol class="ranking-list">
+          @for (row of report.rows.slice(0, 5); track row.operator; let index = $index) {
+            <li><span class="rank-number" [class.podium]="index < 3">{{ index + 1 }}</span><span class="operator-name">{{ row.operatorName || row.operator }}<small>Código: {{ row.operator }}</small></span><strong>{{ formatOperatorValue(row.value, 'recarga') }}</strong></li>
+          }
+        </ol>
+      } @else { <div class="ranking-state">O relatório não contém operadores.</div> }
+    } @else {
+      <div class="ranking-state">{{ recargaError() || 'Importe um relatório de Recarga para exibir o ranking.' }}</div>
+    }
+  </article>
+
+  <article class="ranking-card">
+    <header><div><p class="eyebrow">DESTAQUES DA EQUIPE</p><h2>Top 5 Operadores de Pix</h2></div><span class="rank-icon orange">◇</span></header>
+    @if (pixLoading()) {
+      <div class="ranking-state">Carregando ranking…</div>
+    } @else if (pix()?.report; as report) {
+      @if (report.rows.length) {
+        <ol class="ranking-list">
+          @for (row of report.rows.slice(0, 5); track row.operator; let index = $index) {
+            <li><span class="rank-number" [class.podium]="index < 3">{{ index + 1 }}</span><span class="operator-name">{{ row.operatorName || row.operator }}<small>Código: {{ row.operator }}</small></span><strong>{{ formatOperatorValue(row.value, 'pix') }} Pix</strong></li>
+          }
+        </ol>
+      } @else { <div class="ranking-state">O relatório não contém operadores.</div> }
+    } @else {
+      <div class="ranking-state">{{ pixError() || 'Importe um relatório de Pix para exibir o ranking.' }}</div>
+    }
+  </article>
+</section>

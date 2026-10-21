@@ -1,0 +1,32 @@
+<div class="workspace">
+  
+  <aside class="sidebar">
+    <a class="brand" routerLink="/home" aria-label="FCX, início">
+      <img src="onlyLogo.png" alt="" />
+      <span>FCX <small>PAINEL DE GESTÃO</small></span>
+    </a>
+    <div class="nav-label">MENU PRINCIPAL</div>
+    <nav aria-label="Navegação principal">
+      <a routerLink="/home" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active"><span class="nav-icon">⌂</span> Visão geral</a>
+      <a routerLink="/home/recarga" routerLinkActive="active"><span class="nav-icon">↗</span> Recarga</a>
+      <a routerLink="/home/pix" routerLinkActive="active"><span class="nav-icon">◇</span> Pix</a>
+      @if (admin) {
+        <div class="nav-label admin-label">ADMINISTRAÇÃO</div>
+        <a routerLink="/home/usuarios/novo" routerLinkActive="active"><span class="nav-icon">＋</span> Cadastrar usuário</a>
+        <a routerLink="/home/usuarios" [routerLinkActiveOptions]="{ exact: true }" routerLinkActive="active"><span class="nav-icon">☷</span> Usuários cadastrados</a>
+        <a routerLink="/home/operadores" routerLinkActive="active"><span class="nav-icon">◎</span> Operadores</a>
+      }
+    </nav>
+    <div class="sidebar-bottom">
+      <div class="user-chip"><span class="avatar">{{ usuario?.nome?.slice(0, 1) || 'U' }}</span><span class="user-name">{{ usuario?.nome || 'Usuário' }}<small>{{ admin ? 'Administrador' : 'Colaborador' }}</small></span></div>
+      <button class="logout" type="button" [disabled]="saindo()" (click)="sair()">↪ <span>{{ saindo() ? 'Saindo…' : 'Sair da conta' }}</span></button>
+      @if (erro(); as mensagemErro) { <p class="logout-error" role="alert">{{ mensagemErro }}</p> }
+    </div>
+  </aside>
+  
+  <main class="main-area">
+    
+    <header class="topbar"><span>FCX <span class="slash">/</span> Painel</span><div class="topbar-actions"><button class="theme-toggle" type="button" [attr.aria-pressed]="modoEscuro()" [attr.aria-label]="modoEscuro() ? 'Ativar modo claro' : 'Ativar modo escuro'" (click)="alternarTema()"><span aria-hidden="true">{{ modoEscuro() ? '☀' : '☾' }}</span><span class="theme-label">{{ modoEscuro() ? 'Modo claro' : 'Modo escuro' }}</span></button><span class="topbar-status"><i></i> Sistema operacional</span></div></header>
+    <section class="content"><router-outlet /></section>
+  </main>
+</div>

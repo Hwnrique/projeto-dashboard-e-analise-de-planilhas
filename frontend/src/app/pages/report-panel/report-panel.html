@@ -1,0 +1,123 @@
+<section class="page">
+  <p class="eyebrow">ACOMPANHAMENTO</p>
+  <h1>{{ kind === 'pix' ? 'Pix' : 'Recarga' }}</h1>
+  <p class="intro">
+    {{ kind === 'pix' ? 'Desempenho da equipe em operações Pix.' : 'Desempenho da equipe em recargas.' }}
+  </p>
+
+  @if (isAdmin) {
+    <section
+      class="drop-zone"
+      [class.dragging]="dragging()"
+      [class.busy]="uploading()"
+      (dragover)="onDragOver($event)"
+      (dragleave)="onDragLeave($event)"
+      (drop)="onDrop($event)"
+      aria-label="Área para importar relatório"
+    >
+      <input #picker class="file-input" type="file" accept=".csv,.xls,.xlsx,.xlsm" (change)="selectFile($event)" />
+      <span class="upload-icon">↑</span>
+      <div>
+        <h2>{{ uploading() ? 'Processando arquivo…' : 'Importe o relatório' }}</h2>
+        <p>Arraste o arquivo até aqui ou selecione no computador.</p>
+        <small>CSV ou Excel · um arquivo por vez</small>
+      </div>
+      <button type="button" [disabled]="uploading()" (click)="picker.click()">
+        {{ uploading() ? 'Enviando…' : 'Selecionar arquivo' }}
+      </button>
+    </section>
+    <section class="goal-settings">
+      <div><span>META MENSAL DE {{ kind === 'pix' ? 'PIX' : 'RECARGA' }}</span><strong>{{ formatGoalValue(targetGoal()) }}</strong></div>
+      <button class="edit-goal" type="button" [disabled]="savingGoal()" (click)="editingGoal.set(!editingGoal())">{{ editingGoal() ? 'Fechar edição' : 'Editar meta' }}</button>
+      @if (editingGoal()) {
+        <div class="goal-editor">
+          <label for="goal-value">Nova meta {{ kind === 'pix' ? '(quantidade inteira)' : '(valor em reais)' }}</label>
+          <div><input #goalInput id="goal-value" type="number" min="1" [step]="kind === 'pix' ? '1' : '0.01'" [value]="targetGoal()" /><button type="button" [disabled]="savingGoal()" (click)="saveGoal(goalInput.value)">{{ savingGoal() ? 'Salvando…' : 'Salvar meta' }}</button></div>
+        </div>
+      }
+    </section>
+  }
+
+  @if (error(); as message) {
+    <p class="error" role="alert">{{ message }}</p>
+  }
+
+  @if (loading()) {
+    <section class="empty"><p>Carregando relatório…</p></section>
+  } @else if (report(); as data) {
+    @if (kind === 'pix' && data.valueColumn !== 'Quantidade de Transacoes') {
+      <section class="empty incompatible-report" role="status">
+        <span>!</span>
+        <h2>Este relatório não contém a contagem de Pix</h2>
+        <p>O arquivo salvo usa “{{ data.valueColumn }}”. O painel de Pix precisa da coluna de quantidade de transações.</p>
+        <small>Relatório salvo: {{ data.fileName }}</small>
+        @if (isAdmin) { <p>Envie a planilha de Pix atualizada para substituir esses dados.</p> }
+      </section>
+    } @else {
+    @if (hasGoalMetric(data)) {
+      <section class="goal-card" [class.goal-far]="goalStatus(data) === 'far'" [class.goal-near]="goalStatus(data) === 'near'" [class.goal-reached]="goalStatus(data) === 'reached'">
+        <header class="goal-header">
+          <div><span class="goal-icon">{{ kind === 'pix' ? '◇' : '↗' }}</span><div><p>META DE {{ kind === 'pix' ? 'PIX' : 'RECARGA' }}</p><small>{{ data.fileName }}</small></div></div>
+          <span class="goal-badge">{{ goalStatus(data) === 'reached' ? 'Meta atingida' : goalStatus(data) === 'near' ? 'Quase lá' : 'Em andamento' }}</span>
+        </header>
+        <div class="goal-values">
+          <div class="goal-current"><span>{{ kind === 'pix' ? 'QUANTIDADE REALIZADA' : 'VALOR TOTAL FEITO' }}</span><strong>{{ formatGoalValue(numberValue(data.totalValue)) }}</strong></div>
+          <div class="goal-target"><span>META DO MÊS</span><strong>{{ formatGoalValue(targetGoal()) }}</strong></div>
+        </div>
+        <div class="progress-track" role="progressbar" aria-label="Progresso da meta de recarga" [attr.aria-valuenow]="goalProgress(data)" aria-valuemin="0" aria-valuemax="100">
+          <span [style.width.%]="goalProgress(data)"></span>
+        </div>
+        <footer class="goal-footer">
+          @if (goalStatus(data) === 'reached') {
+            <strong>Meta superada em {{ formatGoalValue(numberValue(data.totalValue) - targetGoal()) }}</strong>
+          } @else {
+            <strong>Faltam {{ formatGoalValue(remainingForGoal(data)) }} para a meta</strong>
+          }
+          <span>{{ goalPercent(data) }}% atingido</span>
+        </footer>
+      </section>
+      <section class="summary compact-summary">
+        <article class="metric"><span>OPERADORES</span><strong>{{ data.rowCount }}</strong></article>
+        <article class="metric"><span>{{ kind === 'pix' ? 'MÉDIA DE PIX POR OPERADOR' : 'VALOR MÉDIO POR OPERADOR' }}</span><strong>{{ formatAverage(data) }}</strong></article>
+      </section>
+    } @else {
+      <section class="summary">
+        <article class="metric">
+          <span>{{ kind === 'pix' ? 'VALOR TOTAL' : 'TRANSAÇÕES' }}</span>
+          <strong>{{ formatTotal(data.totalValue) }}</strong>
+        </article>
+        <article class="metric">
+          <span>OPERADORES</span>
+          <strong>{{ data.rowCount }}</strong>
+        </article>
+      </section>
+    }
+
+    <section class="table-card">
+      <header>
+        <div><h2>Dados por operador</h2><p>{{ data.fileName }}</p></div>
+        <small>Importado em {{ formatDate(data.importedAt) }}</small>
+      </header>
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>OPERADOR</th><th>{{ data.valueColumn | uppercase }}</th></tr></thead>
+          <tbody>
+            @for (row of data.rows; track row.operator) {
+              <tr>
+                <td><strong>{{ row.operatorName || row.operator }}</strong><small class="operator-code">Código: {{ row.operator }}</small></td>
+                <td>{{ formatRow(row.value) }}</td>
+              </tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    </section>
+    }
+  } @else {
+    <section class="empty">
+      <span>{{ kind === 'pix' ? '◇' : '↗' }}</span>
+      <h2>Nenhum relatório importado</h2>
+      <p>Quando um administrador importar o arquivo, os dados aparecerão aqui.</p>
+    </section>
+  }
+</section>

@@ -1,0 +1,14 @@
+<section class="page"><p class="eyebrow">ADMINISTRAÇÃO</p><h1>Cadastrar usuário</h1><p class="intro">Crie um acesso para um novo colaborador.</p>
+  
+  <form [formGroup]="form" (ngSubmit)="cadastrar()" class="form-card" novalidate>
+    <div class="form-heading"><span class="icon">＋</span><div><h2>Dados de acesso</h2><p>Preencha as informações do novo usuário.</p></div></div>
+    <div class="fields">
+      <label>Nome completo<input formControlName="nome" autocomplete="name" placeholder="Ex.: Maria da Silva" />@if(form.controls.nome.invalid&&form.controls.nome.touched){<small>Informe o nome do usuário.</small>}</label>
+      <label>Login<input formControlName="login" autocomplete="off" placeholder="Mínimo de 6 caracteres" />@if(form.controls.login.invalid&&form.controls.login.touched){<small>O login deve ter ao menos 6 caracteres.</small>}</label>
+      <label>Senha inicial<input type="password" formControlName="senha" autocomplete="new-password" placeholder="Mínimo de 6 caracteres" />@if(form.controls.senha.invalid&&form.controls.senha.touched){<small>A senha deve ter ao menos 6 caracteres.</small>}</label>
+    </div>
+    @if(mensagem()){<p class="success" role="status">{{mensagem()}}</p>}
+    @if(erro()){<p class="error" role="alert">{{erro()}}</p>}
+    <div class="actions"><button type="submit" [disabled]="enviando()">{{enviando()?'Salvando…':'Cadastrar usuário'}}</button></div>
+  </form>
+</section>

@@ -1,0 +1,44 @@
+<section class="page">
+  <p class="eyebrow">ADMINISTRAÇÃO</p>
+  <h1>Operadores</h1>
+  <p class="intro">Associe o código do relatório ao nome completo do operador.</p>
+
+  <form class="form-card" [formGroup]="form" (ngSubmit)="save()" novalidate>
+    <label>Código do operador
+      <input formControlName="code" autocomplete="off" placeholder="Ex.: 1251" />
+      @if (form.controls.code.invalid && form.controls.code.touched) {
+        <small>Informe um código com até 40 caracteres.</small>
+      }
+    </label>
+    <label>Nome completo
+      <input formControlName="fullName" autocomplete="name" placeholder="Ex.: Maria da Silva" />
+      @if (form.controls.fullName.invalid && form.controls.fullName.touched) {
+        <small>Informe o nome completo (até 160 caracteres).</small>
+      }
+    </label>
+    <button type="submit" [disabled]="saving()">{{ saving() ? 'Salvando…' : 'Salvar operador' }}</button>
+  </form>
+
+  @if (message()) { <p class="success" role="status">{{ message() }}</p> }
+  @if (error()) { <p class="error" role="alert">{{ error() }}</p> }
+
+  <section class="list-card">
+    <header><h2>Códigos cadastrados</h2><span>{{ operators().length }}</span></header>
+    @if (loading()) {
+      <p class="state">Carregando operadores…</p>
+    } @else if (operators().length === 0) {
+      <p class="state">Nenhum operador cadastrado.</p>
+    } @else {
+      <div class="table-scroll">
+        <table>
+          <thead><tr><th>CÓDIGO</th><th>NOME COMPLETO</th></tr></thead>
+          <tbody>
+            @for (operator of operators(); track operator.code) {
+              <tr><td>{{ operator.code }}</td><td>{{ operator.fullName }}</td></tr>
+            }
+          </tbody>
+        </table>
+      </div>
+    }
+  </section>
+</section>

@@ -1,0 +1,59 @@
+<main class="login-page">
+  <section class="login-card" aria-labelledby="login-title">
+    <div class="brand-mark" aria-hidden="true">
+      <img src="onlyLogo.png" alt="">
+    </div>
+
+    <p class="eyebrow">Seja Bem-vindo</p>
+    <h1 id="login-title">Acesse sua conta</h1>
+    <p class="description">Entre com seu usuário e senha para continuar.</p>
+
+    <form [formGroup]="loginForm" (ngSubmit)="entrar()" novalidate>
+      <div class="field">
+        <label for="login">Login</label>
+        <input
+          id="login"
+          type="text"
+          formControlName="login"
+          autocomplete="username"
+          placeholder="Digite seu login"
+          [attr.aria-invalid]="loginForm.controls.login.invalid && loginForm.controls.login.touched"
+          aria-describedby="login-error"
+        />
+        @if (loginForm.controls.login.invalid && loginForm.controls.login.touched) {
+          <small id="login-error" class="field-error">
+            Digite as credenciais corretas.
+          </small>
+        }
+      </div>
+
+      <div class="field">
+        <label for="senha">Senha</label>
+        <input
+          id="senha"
+          type="password"
+          formControlName="senha"
+          autocomplete="current-password"
+          placeholder="Digite sua senha"
+          [attr.aria-invalid]="loginForm.controls.senha.invalid && loginForm.controls.senha.touched"
+          aria-describedby="senha-error"
+        />
+        @if (loginForm.controls.senha.invalid && loginForm.controls.senha.touched) {
+          <small id="senha-error" class="field-error">
+            Digite as credenciais corretas.
+          </small>
+        }
+      </div>
+
+      <button type="submit" [disabled]="enviando()">
+        {{ enviando() ? 'Entrando…' : 'Entrar' }}
+      </button>
+      @if (mensagem(); as textoMensagem) {
+        <p class="form-message" role="status">{{ textoMensagem }}</p>
+      }
+      @if (erro(); as textoErro) {
+        <p class="form-error" role="alert">{{ textoErro }}</p>
+      }
+    </form>
+  </section>
+</main>
